@@ -1,6 +1,848 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sultan Klik V5 Pro</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+}
+
+header{
+background:#111827;
+padding:15px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+nav{
+display:flex;
+overflow:auto;
+background:#1e293b;
+}
+
+nav button{
+flex:1;
+padding:12px;
+border:none;
+background:none;
+color:white;
+}
+
+.page{
+display:none;
+padding:15px;
+}
+
+.active{
+display:block;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:8px;
+margin-bottom:8px;
+border:none;
+border-radius:8px;
+}
+
+button.action{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#10b981;
+color:white;
+font-weight:bold;
+margin-top:5px;
+}
+
+.bigClick{
+width:220px;
+height:220px;
+border-radius:50%;
+font-size:30px;
+display:block;
+margin:auto;
+background:#f59e0b;
+color:white;
+border:none;
+}
+
+.rank{
+padding:8px;
+border-bottom:1px solid #334155;
+}
+
+.center{
+text-align:center;
+}
+
+.rainbow{
+background:
+linear-gradient(
+90deg,
+red,
+orange,
+yellow,
+green,
+blue,
+indigo,
+violet
+);
+
+-webkit-background-clip:text;
+color:transparent;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+💎 Sultan Klik V5 Pro
+</header>
+
+<nav>
+
+<button onclick="showPage('dashboard')">
+Dashboard
+</button>
+
+<button onclick="showPage('click')">
+Klik
+</button>
+
+<button onclick="showPage('duel')">
+Duel
+</button>
+
+<button onclick="showPage('market')">
+Market
+</button>
+
+<button onclick="showPage('shop')">
+Shop
+</button>
+
+<button onclick="showPage('rank')">
+Ranking
+</button>
+
+</nav>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page active">
+
+  </div>
+  <div id="gmailInfo"></div>
+<div id="g_id_onload"
+     data-client_id="597168771867-nlj3okbvohoh4h3b17alhhoc03ipdori.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard">
+</div>
+<div class="container">
+
+<div class="card">
+
+<h3>Login / Register</h3>
+
+<input id="email" placeholder="Email">
+
+<input id="username" placeholder="Username">
+
+<button class="action"
+onclick="registerPlayer()">
+Register
+</button>
+
+<button class="action"
+onclick="loginPlayer()">
+Login
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Profil</h3>
+
+<p>Username :
+<span id="uName">-</span>
+</p>
+
+<p>Poin :
+<span id="uPoint">0</span>
+</p>
+
+<p>Diamond :
+<span id="uDiamond">0</span>
+</p>
+
+<p>Rare :
+<span id="uRare">0</span>
+</p>
+
+<p>Star :
+<span id="uStar">0</span>
+</p>
+
+<p>Color :
+<span id="uColor">DEFAULT</span>
+</p>
+
+<p>Title :
+<span id="uTitle">-</span>
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Quest</h3>
+
+<button class="action"
+onclick="claimRare()">
+Claim Rare Button
+</button>
+
+<button class="action"
+onclick="upgradeStar()">
+100 Rare → 1 Star
+</button>
+
+<button class="action"
+onclick="claimDaily()">
+Daily Reward
+</button>
+
+</div>
+
+</div>
+
+<!-- CLICK -->
+
+<div id="click" class="page">
+
+<div class="card center">
+
+<h3>Sultan Klik</h3>
+
+<button class="bigClick"
+onclick="clickPoint()">
+KLIK
+</button>
+
+<br>
+
+<button class="action"
+onclick="convertDiamond()">
+100.000 Poin → 1 Diamond
+</button>
+
+</div>
+
+</div>
+
+<!-- DUEL -->
+
+<div id="duel" class="page">
+
+<div class="card">
+
+<h3>Duel Pemain</h3>
+
+<input id="duelTarget"
+placeholder="Username lawan">
+
+<button class="action"
+onclick="duel()">
+Mulai Duel
+</button>
+
+<div id="duelResult"></div>
+
+</div>
+
+</div>
+
+<!-- MARKET -->
+
+<div id="market" class="page">
+
+<div class="card">
+
+<h3>Jual Item</h3>
+
+<input id="sellItem"
+placeholder="Item ID">
+
+<input id="sellPrice"
+placeholder="Harga Diamond">
+
+<button class="action"
+onclick="sellItem()">
+Jual
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Marketplace</h3>
+
+<button class="action"
+onclick="loadMarket()">
+Refresh Market
+</button>
+
+<div id="marketList"></div>
+
+</div>
+
+<div class="card">
+
+<h3>Inventory</h3>
+
+<button class="action"
+onclick="loadInventory()">
+Refresh Inventory
+</button>
+
+<div id="inventory"></div>
+
+</div>
+
+</div>
+
+<!-- SHOP -->
+
+<div id="shop" class="page">
+
+<div class="card">
+
+<h3>Shop Warna</h3>
+
+<button class="action"
+onclick="buyColor('RED')">
+Merah (1 Diamond)
+</button>
+
+<button class="action"
+onclick="buyColor('YELLOW')">
+Kuning (10 Diamond)
+</button>
+
+<button class="action"
+onclick="buyColor('GREEN')">
+Hijau (50 Diamond)
+</button>
+
+<button class="action"
+onclick="buyColor('BLUE')">
+Biru (100 Diamond)
+</button>
+
+<button class="action"
+onclick="buyColor('RAINBOW')">
+Pelangi (1000 Diamond)
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Shop Title</h3>
+
+<select id="titleId">
+
+<option value="LV1">
+Level 1
+</option>
+
+<option value="LV2">
+Level 2
+</option>
+
+<option value="LV3">
+Level 3
+</option>
+
+</select>
+
+<button class="action"
+onclick="buyTitle()">
+Beli Title
+</button>
+
+</div>
+
+</div>
+
+<!-- RANK -->
+
+<div id="rank" class="page">
+
+<div class="card">
+
+<h3>Leaderboard Poin</h3>
+
+<button class="action"
+onclick="loadLeaderboard()">
+Refresh
+</button>
+
+<div id="leaderboard"></div>
+
+</div>
+
+<div class="card">
+
+<h3>Leaderboard Diamond</h3>
+
+<button class="action"
+onclick="loadDiamondRank()">
+Refresh
+</button>
+
+<div id="diamondRank"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const API="URL_APPS_SCRIPT";
+
+let currentUser="";
+
+function showPage(id){
+
+document
+.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+document
+.getElementById(id)
+.classList.add("active");
+
+}
+
+async function api(url){
+
+const res=
+await fetch(url);
+
+return await res.json();
+
+}
+
+function saveUser(u){
+
+localStorage.setItem(
+"sultanUser",
+u
+);
+
+}
+
+async function registerPlayer(){
+
+const email=
+document.getElementById("email").value;
+
+const username=
+document.getElementById("username").value;
+
+const data=
+await api(
+API+
+"?action=register"+
+"&email="+email+
+"&username="+username
+);
+
+alert(
+data.message
+);
+
+}
+
+async function loginPlayer(){
+
+const email=
+document.getElementById("email").value;
+
+const data=
+await api(
+API+
+"?action=login"+
+"&email="+email
+);
+
+if(data.success){
+
+currentUser=
+data.username;
+
+saveUser(
+currentUser
+);
+
+updateProfile(
+data
+);
+
+}
+
+}
+
+function updateProfile(d){
+
+uName.innerText=d.username;
+uPoint.innerText=d.poin;
+uDiamond.innerText=d.diamond;
+uRare.innerText=d.rare||0;
+uStar.innerText=d.star||0;
+uColor.innerText=d.color;
+uTitle.innerText=d.title;
+
+}
+
+async function refreshProfile(){
+
+if(!currentUser)return;
+
+const d=
+await api(
+API+
+"?action=profile"+
+"&username="+currentUser
+);
+
+if(d.success){
+
+updateProfile(d);
+
+}
+
+}
+
+async function clickPoint(){
+
+const d=
+await api(
+API+
+"?action=click"+
+"&username="+currentUser
+);
+
+if(d.success){
+
+uPoint.innerText=d.poin;
+
+}
+
+}
+
+async function convertDiamond(){
+
+await api(
+API+
+"?action=convert"+
+"&username="+currentUser
+);
+
+refreshProfile();
+
+}
+
+async function duel(){
+
+const target=
+document.getElementById(
+"duelTarget"
+).value;
+
+const d=
+await api(
+API+
+"?action=duel"+
+"&username="+currentUser+
+"&target="+target
+);
+
+duelResult.innerHTML=
+JSON.stringify(d);
+
+}
+
+async function claimRare(){
+
+await api(
+API+
+"?action=claimRare"+
+"&username="+currentUser
+);
+
+refreshProfile();
+
+}
+
+async function upgradeStar(){
+
+await api(
+API+
+"?action=upgradeStar"+
+"&username="+currentUser
+);
+
+refreshProfile();
+
+}
+
+async function claimDaily(){
+
+await api(
+API+
+"?action=daily"+
+"&username="+currentUser
+);
+
+refreshProfile();
+
+}
+
+async function buyColor(color){
+
+await api(
+API+
+"?action=buyColor"+
+"&username="+currentUser+
+"&color="+color
+);
+
+refreshProfile();
+
+}
+
+async function buyTitle(){
+
+const id=
+titleId.value;
+
+await api(
+API+
+"?action=buyTitle"+
+"&username="+currentUser+
+"&titleid="+id
+);
+
+refreshProfile();
+
+}
+
+async function loadInventory(){
+
+const d=
+await api(
+API+
+"?action=inventory"+
+"&username="+currentUser
+);
+
+let html="";
+
+if(d.inventory){
+
+d.inventory.forEach(x=>{
+
+html+=`
+<div class="rank">
+${x.item} x${x.qty}
+</div>
+`;
+
+});
+
+}
+
+inventory.innerHTML=html;
+
+}
+
+async function sellItem(){
+
+const item=
+sellItem.value;
+
+const price=
+sellPrice.value;
+
+await api(
+API+
+"?action=sellItem"+
+"&username="+currentUser+
+"&itemid="+item+
+"&price="+price
+);
+
+loadMarket();
+
+}
+
+async function loadMarket(){
+
+const d=
+await api(
+API+
+"?action=market"
+);
+
+let html="";
+
+if(d.market){
+
+d.market.forEach(x=>{
+
+html+=`
+<div class="rank">
+${x.item}
+-
+${x.price}💎
+
+<button onclick="buyMarket('${x.id}')">
+Beli
+</button>
+
+</div>
+`;
+
+});
+
+}
+
+marketList.innerHTML=
+html;
+
+}
+
+async function buyMarket(id){
+
+await api(
+API+
+"?action=buyItem"+
+"&username="+currentUser+
+"&marketid="+id
+);
+
+loadMarket();
+
+}
+
+async function loadLeaderboard(){
+
+const d=
+await api(
+API+
+"?action=leaderboard"
+);
+
+let html="";
+
+d.leaderboard.forEach(
+(p,i)=>{
+
+html+=`
+<div class="rank">
+#${i+1}
+${p[1]}
+-
+${p[2]} poin
+</div>
+`;
+
+});
+
+leaderboard.innerHTML=
+html;
+
+}
+
+async function loadDiamondRank(){
+
+const d=
+await api(
+API+
+"?action=diamondRank"
+);
+
+let html="";
+
+d.ranking.forEach(
+(p,i)=>{
+
+html+=`
+<div class="rank">
+#${i+1}
+${p[1]}
+-
+${p[3]} 💎
+</div>
+`;
+
+});
+
+diamondRank.innerHTML=
+html;
+
+}
+
+setInterval(
+refreshProfile,
+5000
+);
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
   
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 <meta charset="UTF-8">
