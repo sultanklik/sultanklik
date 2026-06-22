@@ -131,6 +131,58 @@ Login
 
 </div>
 
+  <div class="card">
+
+<h3>⚔ Duel</h3>
+
+<input id="duelTarget" placeholder="Username lawan">
+
+<button class="btn-blue" onclick="startDuel()">
+Mulai Duel
+</button>
+
+<div id="duelResult"></div>
+
+</div>
+
+<div class="card">
+
+<h3>🎨 Shop Warna Username</h3>
+
+<button class="btn-green" onclick="buyColor('RED')">
+Merah (1 Diamond)
+</button>
+
+<button class="btn-green" onclick="buyColor('YELLOW')">
+Kuning (10 Diamond)
+</button>
+
+<button class="btn-green" onclick="buyColor('GREEN')">
+Hijau (50 Diamond)
+</button>
+
+<button class="btn-green" onclick="buyColor('BLUE')">
+Biru (100 Diamond)
+</button>
+
+<button class="btn-green" onclick="buyColor('RAINBOW')">
+Pelangi (1000 Diamond)
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>🎒 Inventory</h3>
+
+<button class="btn-blue" onclick="loadInventory()">
+Refresh Inventory
+</button>
+
+<div id="inventory"></div>
+
+</div>
+
 <div class="card center">
 
 <h3>Sultan Klik</h3>
@@ -488,6 +540,108 @@ function parseJwt(token){
 
 }
 
+async function buyColor(color){
+
+if(!currentUser){
+alert("Login dulu");
+return;
+}
+
+const res =
+await fetch(
+API+
+"?action=buyColor"+
+"&username="+encodeURIComponent(currentUser)+
+"&color="+color
+);
+
+const data =
+await res.json();
+
+if(data.success){
+
+alert("Berhasil membeli warna");
+
+refreshProfile();
+
+}else{
+
+alert(data.message);
+
+}
+
+}
+
+async function loadInventory(){
+
+if(!currentUser){
+return;
+}
+
+const res =
+await fetch(
+API+
+"?action=inventory"+
+"&username="+encodeURIComponent(currentUser)
+);
+
+const data =
+await res.json();
+
+let html="";
+
+if(data.inventory){
+
+data.inventory.forEach(item=>{
+
+html += `
+<div class="rank">
+${item.item} x${item.qty}
+</div>
+`;
+
+});
+
+}
+
+document.getElementById(
+"inventory"
+).innerHTML = html;
+
+}
+
+async function startDuel(){
+
+if(!currentUser){
+alert("Login dulu");
+return;
+}
+
+const target =
+document.getElementById(
+"duelTarget"
+).value;
+
+const res =
+await fetch(
+API+
+"?action=duel"+
+"&username="+encodeURIComponent(currentUser)+
+"&target="+encodeURIComponent(target)
+);
+
+const data =
+await res.json();
+
+document.getElementById(
+"duelResult"
+).innerHTML =
+JSON.stringify(data);
+
+refreshProfile();
+
+}
+    
 </script>
 
 </body>
