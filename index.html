@@ -1,119 +1,333 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Sultan Klik V5 Pro</title>
 
 <style>
 
 *{
-box-sizing:border-box;
 margin:0;
 padding:0;
-font-family:Arial,sans-serif;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
 body{
-background:#0f172a;
+
+background:
+linear-gradient(
+135deg,
+#020617,
+#0f172a,
+#111827,
+#1e293b
+);
+
+background-size:400% 400%;
+
+animation:bgmove 12s ease infinite;
+
 color:white;
+
+min-height:100vh;
+
+}
+
+@keyframes bgmove{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
 }
 
 header{
-background:#111827;
-padding:15px;
+
+padding:18px;
+
 text-align:center;
-font-size:24px;
+
+font-size:28px;
+
 font-weight:bold;
+
+background:
+rgba(0,0,0,.3);
+
+backdrop-filter:
+blur(12px);
+
+border-bottom:
+1px solid rgba(255,255,255,.1);
+
 }
 
 nav{
+
 display:flex;
+
 overflow:auto;
-background:#1e293b;
+
+background:
+rgba(255,255,255,.05);
+
+backdrop-filter:
+blur(10px);
+
 }
 
 nav button{
+
 flex:1;
+
 padding:12px;
+
 border:none;
+
 background:none;
+
 color:white;
+
+font-weight:bold;
+
 }
 
 .page{
+
 display:none;
+
 padding:15px;
+
 }
 
 .active{
+
 display:block;
+
 }
 
 .card{
-background:#1e293b;
+
+background:
+rgba(255,255,255,.05);
+
+backdrop-filter:
+blur(12px);
+
+border:
+1px solid rgba(
+255,
+255,
+255,
+0.08
+);
+
+border-radius:20px;
+
 padding:15px;
-border-radius:12px;
+
 margin-bottom:15px;
+
+box-shadow:
+0 0 20px rgba(
+0,
+255,
+255,
+0.1
+);
+
+}
+
+.action{
+
+width:100%;
+
+padding:12px;
+
+margin-top:8px;
+
+border:none;
+
+border-radius:12px;
+
+font-weight:bold;
+
+color:white;
+
+cursor:pointer;
+
+background:
+
+linear-gradient(
+45deg,
+#00c6ff,
+#0072ff
+);
+
+}
+
+.action:active{
+
+transform:scale(.96);
+
 }
 
 input,select{
-width:100%;
-padding:10px;
-margin-top:8px;
-margin-bottom:8px;
-border:none;
-border-radius:8px;
-}
 
-button.action{
 width:100%;
+
 padding:12px;
+
+margin-top:8px;
+
+margin-bottom:8px;
+
 border:none;
-border-radius:8px;
-background:#10b981;
+
+border-radius:12px;
+
+background:#111827;
+
 color:white;
-font-weight:bold;
-margin-top:5px;
+
 }
 
 .bigClick{
-width:220px;
-height:220px;
+
+width:250px;
+
+height:250px;
+
 border-radius:50%;
-font-size:30px;
-display:block;
-margin:auto;
-background:#f59e0b;
-color:white;
+
 border:none;
+
+display:block;
+
+margin:auto;
+
+font-size:36px;
+
+font-weight:bold;
+
+color:white;
+
+background:
+
+radial-gradient(
+circle,
+#ffcc00,
+#ff8800
+);
+
+box-shadow:
+
+0 0 20px #ff9900,
+0 0 60px #ff6600,
+0 0 120px #ff3300;
+
+animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+
+}
+
+.avatar{
+
+width:80px;
+
+height:80px;
+
+border-radius:50%;
+
+border:3px solid #00ffff;
+
+box-shadow:
+
+0 0 20px #00ffff,
+0 0 50px #00ffff;
+
 }
 
 .rank{
-padding:8px;
-border-bottom:1px solid #334155;
+
+padding:10px;
+
+border-bottom:
+1px solid #334155;
+
 }
 
 .center{
+
 text-align:center;
+
 }
 
-.rainbow{
+.toast{
+
+position:fixed;
+
+bottom:20px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+background:#111827;
+
+padding:12px 20px;
+
+border-radius:12px;
+
+display:none;
+
+z-index:9999;
+
+}
+
+.xpBar{
+
+height:20px;
+
+background:#111827;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-top:10px;
+
+}
+
+#xpFill{
+
+height:100%;
+
+width:0%;
+
 background:
+
 linear-gradient(
 90deg,
-red,
-orange,
-yellow,
-green,
-blue,
-indigo,
-violet
+#00ff66,
+#00ffff
 );
 
--webkit-background-clip:text;
-color:transparent;
+transition:.3s;
+
 }
 
 </style>
@@ -128,143 +342,147 @@ color:transparent;
 <nav>
 
 <button onclick="showPage('dashboard')">
-Dashboard
+🏠
 </button>
 
 <button onclick="showPage('click')">
-Klik
+🖱
 </button>
 
 <button onclick="showPage('duel')">
-Duel
+⚔
 </button>
 
 <button onclick="showPage('market')">
-Market
+🏪
 </button>
 
 <button onclick="showPage('shop')">
-Shop
+🎨
 </button>
 
 <button onclick="showPage('rank')">
-Ranking
+🏆
 </button>
 
 </nav>
 
-<!-- DASHBOARD -->
-
 <div id="dashboard" class="page active">
 
-  </div>
-  <div id="gmailInfo"></div>
+<div class="card center">
+
+<div id="gmailInfo">
+
+Login Gmail terlebih dahulu
+
+</div>
+
 <div id="g_id_onload"
-     data-client_id="597168771867-nlj3okbvohoh4h3b17alhhoc03ipdori.apps.googleusercontent.com"
-     data-callback="handleCredentialResponse">
+data-client_id="597168771867-nlj3okbvohoh4h3b17alhhoc03ipdori.apps.googleusercontent.com"
+data-callback="handleCredentialResponse">
 </div>
 
-<div class="g_id_signin"
-     data-type="standard">
+<div class="g_id_signin"></div>
+
 </div>
-<div class="container">
 
 <div class="card">
 
-<h3>Login / Register</h3>
+<h3>Username</h3>
 
-<input id="email" placeholder="Email">
+<input
+id="username"
+placeholder="Masukkan username">
 
-<input id="username" placeholder="Username">
-
-<button class="action"
+<button
+class="action"
 onclick="registerPlayer()">
+
 Register
+
 </button>
 
-<button class="action"
+<button
+class="action"
 onclick="loginPlayer()">
+
 Login
+
 </button>
 
 </div>
 
 <div class="card">
 
-<h3>Profil</h3>
+<h3>Profil Sultan</h3>
 
-<p>Username :
-<span id="uName">-</span>
-</p>
+<p>Username:
+<span id="uName">-</span></p>
 
-<p>Poin :
-<span id="uPoint">0</span>
-</p>
+<p>Poin:
+<span id="uPoint">0</span></p>
 
-<p>Diamond :
-<span id="uDiamond">0</span>
-</p>
+<p>Diamond:
+<span id="uDiamond">0</span></p>
 
-<p>Rare :
-<span id="uRare">0</span>
-</p>
+<p>Rare:
+<span id="uRare">0</span></p>
 
-<p>Star :
-<span id="uStar">0</span>
-</p>
+<p>Star:
+<span id="uStar">0</span></p>
 
-<p>Color :
-<span id="uColor">DEFAULT</span>
-</p>
+<p>Color:
+<span id="uColor">DEFAULT</span></p>
 
-<p>Title :
-<span id="uTitle">-</span>
-</p>
+<p>Title:
+<span id="uTitle">-</span></p>
 
-</div>
+<div class="xpBar">
 
-<div class="card">
-
-<h3>Quest</h3>
-
-<button class="action"
-onclick="claimRare()">
-Claim Rare Button
-</button>
-
-<button class="action"
-onclick="upgradeStar()">
-100 Rare → 1 Star
-</button>
-
-<button class="action"
-onclick="claimDaily()">
-Daily Reward
-</button>
+<div id="xpFill"></div>
 
 </div>
 
 </div>
 
-<!-- CLICK -->
+  <!-- CLICK -->
 
 <div id="click" class="page">
 
 <div class="card center">
 
-<h3>Sultan Klik</h3>
+<h2>🖱 Sultan Klik</h2>
 
-<button class="bigClick"
+<button
+id="clickBtn"
+class="bigClick"
 onclick="clickPoint()">
+
 KLIK
+
 </button>
 
 <br>
 
-<button class="action"
+<button
+class="action"
 onclick="convertDiamond()">
-100.000 Poin → 1 Diamond
+
+100.000 Poin ➜ 1 Diamond
+
 </button>
+
+</div>
+
+<div class="card">
+
+<h3>Statistik Klik</h3>
+
+<p>Total Klik:
+<span id="clickCount">
+0
+</span>
+</p>
 
 </div>
 
@@ -276,17 +494,24 @@ onclick="convertDiamond()">
 
 <div class="card">
 
-<h3>Duel Pemain</h3>
+<h2>⚔ Duel Arena</h2>
 
-<input id="duelTarget"
+<input
+id="duelTarget"
 placeholder="Username lawan">
 
-<button class="action"
+<button
+class="action"
 onclick="duel()">
+
 Mulai Duel
+
 </button>
 
-<div id="duelResult"></div>
+<div
+id="duelResult"
+style="margin-top:10px;">
+</div>
 
 </div>
 
@@ -298,44 +523,61 @@ Mulai Duel
 
 <div class="card">
 
-<h3>Jual Item</h3>
+<h2>🏪 Marketplace</h2>
 
-<input id="sellItem"
+<input
+id="sellItemId"
 placeholder="Item ID">
 
-<input id="sellPrice"
+<input
+id="sellPrice"
 placeholder="Harga Diamond">
 
-<button class="action"
+<button
+class="action"
 onclick="sellItem()">
-Jual
+
+Jual Item
+
 </button>
 
 </div>
 
 <div class="card">
 
-<h3>Marketplace</h3>
-
-<button class="action"
+<button
+class="action"
 onclick="loadMarket()">
+
 Refresh Market
+
 </button>
 
-<div id="marketList"></div>
+<div id="marketList">
+
+Belum ada item
+
+</div>
 
 </div>
 
 <div class="card">
 
-<h3>Inventory</h3>
+<h3>🎒 Inventory</h3>
 
-<button class="action"
+<button
+class="action"
 onclick="loadInventory()">
+
 Refresh Inventory
+
 </button>
 
-<div id="inventory"></div>
+<div id="inventory">
+
+Kosong
+
+</div>
 
 </div>
 
@@ -347,38 +589,58 @@ Refresh Inventory
 
 <div class="card">
 
-<h3>Shop Warna</h3>
+<h2>🎨 Shop Warna</h2>
 
-<button class="action"
+<button
+class="action"
 onclick="buyColor('RED')">
-Merah (1 Diamond)
+
+🔴 Merah
+(1 Diamond)
+
 </button>
 
-<button class="action"
+<button
+class="action"
 onclick="buyColor('YELLOW')">
-Kuning (10 Diamond)
+
+🟡 Kuning
+(10 Diamond)
+
 </button>
 
-<button class="action"
+<button
+class="action"
 onclick="buyColor('GREEN')">
-Hijau (50 Diamond)
+
+🟢 Hijau
+(50 Diamond)
+
 </button>
 
-<button class="action"
+<button
+class="action"
 onclick="buyColor('BLUE')">
-Biru (100 Diamond)
+
+🔵 Biru
+(100 Diamond)
+
 </button>
 
-<button class="action"
+<button
+class="action"
 onclick="buyColor('RAINBOW')">
-Pelangi (1000 Diamond)
+
+🌈 Pelangi
+(1000 Diamond)
+
 </button>
 
 </div>
 
 <div class="card">
 
-<h3>Shop Title</h3>
+<h2>👑 Shop Title</h2>
 
 <select id="titleId">
 
@@ -394,11 +656,22 @@ Level 2
 Level 3
 </option>
 
+<option value="LV4">
+Level 4
+</option>
+
+<option value="LV5">
+Level 5
+</option>
+
 </select>
 
-<button class="action"
+<button
+class="action"
 onclick="buyTitle()">
+
 Beli Title
+
 </button>
 
 </div>
@@ -411,85 +684,352 @@ Beli Title
 
 <div class="card">
 
-<h3>Leaderboard Poin</h3>
+<h2>🏆 Leaderboard Poin</h2>
 
-<button class="action"
+<button
+class="action"
 onclick="loadLeaderboard()">
+
 Refresh
+
 </button>
 
-<div id="leaderboard"></div>
+<div id="leaderboard">
+
+Loading...
+
+</div>
 
 </div>
 
 <div class="card">
 
-<h3>Leaderboard Diamond</h3>
+<h2>💎 Ranking Diamond</h2>
 
-<button class="action"
+<button
+class="action"
 onclick="loadDiamondRank()">
+
 Refresh
+
 </button>
 
-<div id="diamondRank"></div>
+<div id="diamondRank">
+
+Loading...
 
 </div>
 
 </div>
 
-<script>
+</div>
 
-const API="https://script.google.com/macros/s/AKfycbwv0ncHd4TMkCMw_S7m5l-sfDUBA5fu7_VssK1ylT5x4i-oVqqNuckTlZRwtv2t-N9q/exec";
+<!-- TOAST -->
 
-let currentUser="";
+<div id="toast" class="toast">
+
+Berhasil
+
+</div>
+
+<!-- AUDIO -->
+
+<audio
+id="clickSound"
+preload="auto">
+
+<source
+src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3">
+
+</audio>
+
+<audio
+id="rewardSound"
+preload="auto">
+
+<source
+src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3">
+
+</audio>
+
+<div
+style="
+position:fixed;
+right:15px;
+bottom:15px;
+z-index:9999;
+">
+
+<button
+id="muteBtn"
+class="action">
+
+🔊 Sound ON
+
+</button>
+
+</div>
+
+  <script>
+
+const API =
+"https://script.google.com/macros/s/AKfycbwv0ncHd4TMkCMw_S7m5l-sfDUBA5fu7_VssK1ylT5x4i-oVqqNuckTlZRwtv2t-N9q/exec";
+
+let currentUser = "";
+let gmailUser = null;
+let soundEnabled = true;
 
 function showPage(id){
 
 document
 .querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
+.forEach(p=>{
+
+p.classList.remove(
+"active"
+);
+
+});
 
 document
 .getElementById(id)
-.classList.add("active");
+.classList.add(
+"active"
+);
 
 }
 
 async function api(url){
 
-const res=
+const res =
 await fetch(url);
 
 return await res.json();
 
 }
 
-function saveUser(u){
+function toast(text){
+
+const t =
+document.getElementById(
+"toast"
+);
+
+t.innerText =
+text;
+
+t.style.display =
+"block";
+
+setTimeout(()=>{
+
+t.style.display =
+"none";
+
+},2000);
+
+}
+
+function playClick(){
+
+if(!soundEnabled)
+return;
+
+const s =
+document.getElementById(
+"clickSound"
+);
+
+s.currentTime = 0;
+
+s.play();
+
+}
+
+function playReward(){
+
+if(!soundEnabled)
+return;
+
+const s =
+document.getElementById(
+"rewardSound"
+);
+
+s.currentTime = 0;
+
+s.play();
+
+}
+
+document
+.getElementById(
+"muteBtn"
+)
+.onclick = function(){
+
+soundEnabled =
+!soundEnabled;
+
+this.innerHTML =
+soundEnabled
+?
+"🔊 Sound ON"
+:
+"🔇 Sound OFF";
+
+};
+
+function saveUser(username){
 
 localStorage.setItem(
 "sultanUser",
-u
+username
+);
+
+}
+
+function loadUser(){
+
+const u =
+localStorage.getItem(
+"sultanUser"
+);
+
+if(u){
+
+currentUser = u;
+
+refreshProfile();
+
+}
+
+}
+
+function handleCredentialResponse(response){
+
+const data =
+parseJwt(
+response.credential
+);
+
+gmailUser = {
+
+email:data.email,
+name:data.name,
+picture:data.picture
+
+};
+
+document
+.getElementById(
+"gmailInfo"
+)
+.innerHTML =
+
+`
+<img
+class="avatar"
+src="${data.picture}">
+
+<h3>
+${data.name}
+</h3>
+
+<p>
+${data.email}
+</p>
+`;
+
+toast(
+"Login Gmail berhasil"
+);
+
+}
+
+function parseJwt(token){
+
+const base64Url =
+token.split(".")[1];
+
+const base64 =
+base64Url
+.replace(/-/g,"+")
+.replace(/_/g,"/");
+
+const jsonPayload =
+decodeURIComponent(
+
+atob(base64)
+
+.split("")
+
+.map(function(c){
+
+return "%" +
+
+(
+"00"+
+
+c.charCodeAt(0)
+.toString(16)
+
+)
+
+.slice(-2);
+
+})
+
+.join("")
+
+);
+
+return JSON.parse(
+jsonPayload
 );
 
 }
 
 async function registerPlayer(){
 
-const email=
-document.getElementById("email").value;
+if(!gmailUser){
 
-const username=
-document.getElementById("username").value;
-
-const data=
-await api(
-API+
-"?action=register"+
-"&email="+email+
-"&username="+username
+toast(
+"Login Gmail dahulu"
 );
 
-alert(
+return;
+
+}
+
+const username =
+
+document
+.getElementById(
+"username"
+)
+.value;
+
+const data =
+await api(
+
+API+
+
+"?action=register"+
+
+"&email="+
+encodeURIComponent(
+gmailUser.email
+)+
+
+"&username="+
+encodeURIComponent(
+username
+)
+
+);
+
+toast(
 data.message
 );
 
@@ -497,19 +1037,33 @@ data.message
 
 async function loginPlayer(){
 
-const email=
-document.getElementById("email").value;
+if(!gmailUser){
 
-const data=
+toast(
+"Login Gmail dahulu"
+);
+
+return;
+
+}
+
+const data =
 await api(
+
 API+
+
 "?action=login"+
-"&email="+email
+
+"&email="+
+encodeURIComponent(
+gmailUser.email
+)
+
 );
 
 if(data.success){
 
-currentUser=
+currentUser =
 data.username;
 
 saveUser(
@@ -520,53 +1074,192 @@ updateProfile(
 data
 );
 
+toast(
+"Login berhasil"
+);
+
+}else{
+
+toast(
+data.message
+);
+
 }
 
 }
 
 function updateProfile(d){
 
-uName.innerText=d.username;
-uPoint.innerText=d.poin;
-uDiamond.innerText=d.diamond;
-uRare.innerText=d.rare||0;
-uStar.innerText=d.star||0;
-uColor.innerText=d.color;
-uTitle.innerText=d.title;
+document
+.getElementById(
+"uName"
+).innerText =
+d.username || "-";
+
+document
+.getElementById(
+"uPoint"
+).innerText =
+d.poin || 0;
+
+document
+.getElementById(
+"uDiamond"
+).innerText =
+d.diamond || 0;
+
+document
+.getElementById(
+"uRare"
+).innerText =
+d.rare || 0;
+
+document
+.getElementById(
+"uStar"
+).innerText =
+d.star || 0;
+
+document
+.getElementById(
+"uColor"
+).innerText =
+d.color || "DEFAULT";
+
+document
+.getElementById(
+"uTitle"
+).innerText =
+d.title || "-";
+
+let persen =
+
+(
+(d.poin||0)
+%
+100000
+)
+
+/
+100000
+
+*
+100;
+
+document
+.getElementById(
+"xpFill"
+)
+.style.width =
+
+persen + "%";
 
 }
 
 async function refreshProfile(){
 
-if(!currentUser)return;
+if(!currentUser)
+return;
 
-const d=
+const data =
 await api(
+
 API+
+
 "?action=profile"+
-"&username="+currentUser
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
 );
 
-if(d.success){
+if(data.success){
 
-updateProfile(d);
+updateProfile(
+data
+);
 
 }
 
 }
+
+loadUser();
+
+setInterval(
+refreshProfile,
+5000
+);
+
+</script>
+
+  <script>
 
 async function clickPoint(){
 
-const d=
-await api(
-API+
-"?action=click"+
-"&username="+currentUser
+if(!currentUser){
+
+toast(
+"Login dahulu"
 );
 
-if(d.success){
+return;
 
-uPoint.innerText=d.poin;
+}
+
+playClick();
+
+if(
+navigator.vibrate
+){
+
+navigator.vibrate(
+30
+);
+
+}
+
+const data =
+await api(
+
+API+
+
+"?action=click"+
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
+);
+
+if(data.success){
+
+document
+.getElementById(
+"uPoint"
+)
+.innerText =
+data.poin;
+
+let total =
+
+parseInt(
+document
+.getElementById(
+"clickCount"
+)
+.innerText
+||0
+);
+
+document
+.getElementById(
+"clickCount"
+)
+.innerText =
+total+1;
 
 }
 
@@ -574,172 +1267,573 @@ uPoint.innerText=d.poin;
 
 async function convertDiamond(){
 
+if(!currentUser){
+
+toast(
+"Login dahulu"
+);
+
+return;
+
+}
+
+const data =
 await api(
+
 API+
+
 "?action=convert"+
-"&username="+currentUser
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
+);
+
+if(data.success){
+
+playReward();
+
+toast(
+"Diamond berhasil ditukar"
 );
 
 refreshProfile();
+
+}else{
+
+toast(
+data.message
+||
+"Gagal"
+);
+
+}
 
 }
 
 async function duel(){
 
-const target=
-document.getElementById(
+if(!currentUser){
+
+toast(
+"Login dahulu"
+);
+
+return;
+
+}
+
+const target =
+
+document
+.getElementById(
 "duelTarget"
-).value;
+)
+.value;
 
-const d=
+if(!target){
+
+toast(
+"Masukkan lawan"
+);
+
+return;
+
+}
+
+const data =
 await api(
+
 API+
+
 "?action=duel"+
-"&username="+currentUser+
-"&target="+target
+
+"&username="+
+encodeURIComponent(
+currentUser
+)+
+
+"&target="+
+encodeURIComponent(
+target
+)
+
 );
 
-duelResult.innerHTML=
-JSON.stringify(d);
+if(data.success){
 
-}
+document
+.getElementById(
+"duelResult"
+)
+.innerHTML =
 
-async function claimRare(){
+`
+<b>Pemenang:</b>
+${data.winner}
+`;
 
-await api(
-API+
-"?action=claimRare"+
-"&username="+currentUser
-);
+playReward();
 
 refreshProfile();
 
-}
+}else{
 
-async function upgradeStar(){
-
-await api(
-API+
-"?action=upgradeStar"+
-"&username="+currentUser
+toast(
+data.message
 );
 
-refreshProfile();
-
 }
-
-async function claimDaily(){
-
-await api(
-API+
-"?action=daily"+
-"&username="+currentUser
-);
-
-refreshProfile();
 
 }
 
 async function buyColor(color){
 
-await api(
-API+
-"?action=buyColor"+
-"&username="+currentUser+
-"&color="+color
+if(!currentUser){
+
+toast(
+"Login dahulu"
 );
 
+return;
+
+}
+
+const data =
+await api(
+
+API+
+
+"?action=buyColor"+
+
+"&username="+
+encodeURIComponent(
+currentUser
+)+
+
+"&color="+
+encodeURIComponent(
+color
+)
+
+);
+
+if(data.success){
+
+toast(
+"Warna berhasil dibeli"
+);
+
+playReward();
+
 refreshProfile();
+
+}else{
+
+toast(
+data.message
+);
+
+}
 
 }
 
 async function buyTitle(){
 
-const id=
-titleId.value;
+if(!currentUser){
 
+toast(
+"Login dahulu"
+);
+
+return;
+
+}
+
+const titleid =
+
+document
+.getElementById(
+"titleId"
+)
+.value;
+
+const data =
 await api(
+
 API+
+
 "?action=buyTitle"+
-"&username="+currentUser+
-"&titleid="+id
+
+"&username="+
+encodeURIComponent(
+currentUser
+)+
+
+"&titleid="+
+encodeURIComponent(
+titleid
+)
+
+);
+
+if(data.success){
+
+toast(
+"Title berhasil dibeli"
+);
+
+playReward();
+
+refreshProfile();
+
+}else{
+
+toast(
+data.message
+);
+
+}
+
+}
+
+async function claimRare(){
+
+if(!currentUser){
+
+toast(
+"Login dahulu"
+);
+
+return;
+
+}
+
+const data =
+await api(
+
+API+
+
+"?action=claimRare"+
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
+);
+
+if(data.success){
+
+playReward();
+
+toast(
+"Rare Button berhasil diklaim"
 );
 
 refreshProfile();
 
+}else{
+
+toast(
+data.message
+);
+
 }
+
+}
+
+async function upgradeStar(){
+
+if(!currentUser){
+
+toast(
+"Login dahulu"
+);
+
+return;
+
+}
+
+const data =
+await api(
+
+API+
+
+"?action=upgradeStar"+
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
+);
+
+if(data.success){
+
+playReward();
+
+toast(
+"Star berhasil ditingkatkan"
+);
+
+refreshProfile();
+
+}else{
+
+toast(
+data.message
+);
+
+}
+
+}
+
+async function claimDaily(){
+
+if(!currentUser){
+
+toast(
+"Login dahulu"
+);
+
+return;
+
+}
+
+const data =
+await api(
+
+API+
+
+"?action=daily"+
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
+);
+
+if(data.success){
+
+playReward();
+
+toast(
+"Daily reward diterima"
+);
+
+refreshProfile();
+
+}else{
+
+toast(
+data.message
+);
+
+}
+
+}
+
+</script>
+
+  <script>
+
+/* =========================
+   INVENTORY
+========================= */
 
 async function loadInventory(){
 
-const d=
+if(!currentUser){
+return;
+}
+
+const data =
 await api(
+
 API+
+
 "?action=inventory"+
-"&username="+currentUser
+
+"&username="+
+encodeURIComponent(
+currentUser
+)
+
 );
 
 let html="";
 
-if(d.inventory){
+if(
+data.inventory
+){
 
-d.inventory.forEach(x=>{
+data.inventory.forEach(
+item=>{
 
-html+=`
+html +=
+
+`
 <div class="rank">
-${x.item} x${x.qty}
+
+🎒 ${item.item}
+
+x${item.qty}
+
 </div>
 `;
 
 });
 
+}else{
+
+html =
+"Inventory kosong";
+
 }
 
-inventory.innerHTML=html;
+document
+.getElementById(
+"inventory"
+)
+.innerHTML =
+html;
 
 }
+
+/* =========================
+   MARKETPLACE
+========================= */
 
 async function sellItem(){
 
-const item=
-sellItem.value;
+if(!currentUser){
 
-const price=
-sellPrice.value;
+toast(
+"Login dahulu"
+);
 
+return;
+
+}
+
+const item =
+
+document
+.getElementById(
+"sellItemId"
+)
+.value;
+
+const price =
+
+document
+.getElementById(
+"sellPrice"
+)
+.value;
+
+if(!item){
+
+toast(
+"Masukkan Item ID"
+);
+
+return;
+
+}
+
+const data =
 await api(
+
 API+
+
 "?action=sellItem"+
-"&username="+currentUser+
-"&itemid="+item+
-"&price="+price
+
+"&username="+
+encodeURIComponent(
+currentUser
+)+
+
+"&itemid="+
+encodeURIComponent(
+item
+)+
+
+"&price="+
+encodeURIComponent(
+price
+)
+
+);
+
+if(data.success){
+
+toast(
+"Item dijual"
 );
 
 loadMarket();
+
+}else{
+
+toast(
+data.message
+||
+"Gagal"
+);
+
+}
 
 }
 
 async function loadMarket(){
 
-const d=
+const data =
 await api(
+
 API+
+
 "?action=market"
+
 );
 
 let html="";
 
-if(d.market){
+if(
+data.market
+){
 
-d.market.forEach(x=>{
+data.market.forEach(
+x=>{
 
-html+=`
+html +=
+
+`
 <div class="rank">
-${x.item}
--
-${x.price}💎
 
-<button onclick="buyMarket('${x.id}')">
+<b>
+${x.item}
+</b>
+
+<br>
+
+Harga:
+${x.price}
+💎
+
+<br><br>
+
+<button
+class="action"
+
+onclick="buyMarket('${x.id}')">
+
 Beli
+
 </button>
 
 </div>
@@ -747,87 +1841,311 @@ Beli
 
 });
 
+}else{
+
+html =
+"Tidak ada item";
+
 }
 
-marketList.innerHTML=
+document
+.getElementById(
+"marketList"
+)
+.innerHTML =
 html;
 
 }
 
 async function buyMarket(id){
 
-await api(
-API+
-"?action=buyItem"+
-"&username="+currentUser+
-"&marketid="+id
+if(!currentUser){
+
+toast(
+"Login dahulu"
 );
 
-loadMarket();
+return;
 
 }
 
+const data =
+await api(
+
+API+
+
+"?action=buyItem"+
+
+"&username="+
+encodeURIComponent(
+currentUser
+)+
+
+"&marketid="+
+encodeURIComponent(
+id
+)
+
+);
+
+if(data.success){
+
+toast(
+"Item berhasil dibeli"
+);
+
+playReward();
+
+loadMarket();
+
+loadInventory();
+
+refreshProfile();
+
+}else{
+
+toast(
+data.message
+||
+"Gagal"
+);
+
+}
+
+}
+
+/* =========================
+   LEADERBOARD
+========================= */
+
 async function loadLeaderboard(){
 
-const d=
+const data =
 await api(
+
 API+
+
 "?action=leaderboard"
+
 );
 
 let html="";
 
-d.leaderboard.forEach(
+if(
+data.leaderboard
+){
+
+data.leaderboard.forEach(
 (p,i)=>{
 
-html+=`
+html +=
+
+`
 <div class="rank">
-#${i+1}
+
+🏆 #${i+1}
+
 ${p[1]}
--
-${p[2]} poin
+
+<br>
+
+${p[2]}
+Poin
+
 </div>
 `;
 
 });
 
-leaderboard.innerHTML=
+}
+
+document
+.getElementById(
+"leaderboard"
+)
+.innerHTML =
 html;
 
 }
 
 async function loadDiamondRank(){
 
-const d=
+const data =
 await api(
+
 API+
+
 "?action=diamondRank"
+
 );
 
 let html="";
 
-d.ranking.forEach(
+if(
+data.ranking
+){
+
+data.ranking.forEach(
 (p,i)=>{
 
-html+=`
+html +=
+
+`
 <div class="rank">
-#${i+1}
+
+💎 #${i+1}
+
 ${p[1]}
--
-${p[3]} 💎
+
+<br>
+
+${p[3]}
+ Diamond
+
 </div>
 `;
 
 });
 
-diamondRank.innerHTML=
+}
+
+document
+.getElementById(
+"diamondRank"
+)
+.innerHTML =
 html;
 
 }
 
+/* =========================
+   AUTO LOAD
+========================= */
+
+async function firstLoad(){
+
+try{
+
+loadLeaderboard();
+
+loadDiamondRank();
+
+loadMarket();
+
+if(currentUser){
+
+loadInventory();
+
+refreshProfile();
+
+}
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+window.onload =
+function(){
+
+firstLoad();
+
+};
+
+/* =========================
+   AUTO REFRESH
+========================= */
+
 setInterval(
-refreshProfile,
+()=>{
+
+if(currentUser){
+
+refreshProfile();
+
+}
+
+},
 5000
+);
+
+setInterval(
+()=>{
+
+loadLeaderboard();
+
+loadDiamondRank();
+
+},
+30000
+);
+
+/* =========================
+   PARTICLE EFFECT
+========================= */
+
+function createParticle(){
+
+const p =
+document.createElement(
+"div"
+);
+
+p.innerHTML =
+"💎";
+
+p.style.position =
+"fixed";
+
+p.style.left =
+Math.random()*
+window.innerWidth+
+"px";
+
+p.style.top =
+window.innerHeight+
+"px";
+
+p.style.zIndex=
+9999;
+
+p.style.fontSize=
+"20px";
+
+document.body
+.appendChild(p);
+
+let pos =
+window.innerHeight;
+
+const timer =
+setInterval(()=>{
+
+pos -= 5;
+
+p.style.top =
+pos+"px";
+
+if(pos<0){
+
+clearInterval(
+timer
+);
+
+p.remove();
+
+}
+
+},20);
+
+}
+
+setInterval(
+createParticle,
+3000
 );
 
 </script>
