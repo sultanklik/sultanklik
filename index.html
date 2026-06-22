@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sultan Klik MVP</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+}
+
+.header{
+background:#111827;
+padding:15px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+padding:15px;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:none;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.btn-green{
+background:#10b981;
+color:white;
+}
+
+.btn-blue{
+background:#3b82f6;
+color:white;
+}
+
+.big-btn{
+width:220px;
+height:220px;
+border-radius:50%;
+font-size:28px;
+display:block;
+margin:auto;
+background:#f59e0b;
+color:white;
+}
+
+.rank{
+padding:8px;
+border-bottom:1px solid #334155;
+}
+
+.center{
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+💎 Sultan Klik MVP
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Register / Login</h3>
+
+<input id="email" placeholder="Email">
+
+<input id="username" placeholder="Username (saat register)">
+
+<button class="btn-green" onclick="registerPlayer()">
+Register
+</button>
+
+<button class="btn-blue" onclick="loginPlayer()">
+Login
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Profil</h3>
+
+<p>Username: <span id="uName">-</span></p>
+<p>Poin: <span id="uPoint">0</span></p>
+<p>Diamond: <span id="uDiamond">0</span></p>
+<p>Color: <span id="uColor">DEFAULT</span></p>
+<p>Title: <span id="uTitle">-</span></p>
+
+</div>
+
+<div class="card center">
+
+<h3>Sultan Klik</h3>
+
+<button class="big-btn" onclick="clickPoint()">
+KLIK
+</button>
+
+<br>
+
+<button class="btn-green" onclick="convertDiamond()">
+100.000 Poin ➜ 1 Diamond
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Leaderboard</h3>
+
+<button class="btn-blue" onclick="loadLeaderboard()">
+Refresh Leaderboard
+</button>
+
+<div id="leaderboard"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "https://script.google.com/macros/s/AKfycbzUaKFdP_Q5SUsMtAGPsZtfGUCAQpxZbns5GClGxtq7jrRLS9HeRdIq0oClw6D_DKpy/exec";
+
+let currentUser = "";
+
+function saveUser(username){
+localStorage.setItem("sultanUser", username);
+}
+
+function loadSavedUser(){
+const u = localStorage.getItem("sultanUser");
+
+if(u){
+currentUser = u;
+refreshProfile();
+}
+}
+
+async function registerPlayer(){
+
+const email =
+document.getElementById("email").value;
+
+const username =
+document.getElementById("username").value;
+
+const res =
+await fetch(
+API+
+"?action=register"+
+"&email="+encodeURIComponent(email)+
+"&username="+encodeURIComponent(username)
+);
+
+const data =
+await res.json();
+
+alert(data.message || "Selesai");
+
+}
+
+async function loginPlayer(){
+
+const email =
+document.getElementById("email").value;
+
+const res =
+await fetch(
+API+
+"?action=login"+
+"&email="+encodeURIComponent(email)
+);
+
+const data =
+await res.json();
+
+if(data.success){
+
+currentUser =
+data.username;
+
+saveUser(currentUser);
+
+updateProfile(data);
+
+alert("Login berhasil");
+
+}else{
+
+alert(data.message || "Login gagal");
+
+}
+
+}
+
+function updateProfile(data){
+
+document.getElementById("uName").innerText =
+data.username || "-";
+
+document.getElementById("uPoint").innerText =
+data.poin || 0;
+
+document.getElementById("uDiamond").innerText =
+data.diamond || 0;
+
+document.getElementById("uColor").innerText =
+data.color || "DEFAULT";
+
+document.getElementById("uTitle").innerText =
+data.title || "-";
+
+}
+
+async function refreshProfile(){
+
+if(!currentUser) return;
+
+const res =
+await fetch(
+API+
+"?action=profile"+
+"&username="+encodeURIComponent(currentUser)
+);
+
+const data =
+await res.json();
+
+if(data.success){
+
+updateProfile(data);
+
+}
+
+}
+
+async function clickPoint(){
+
+if(!currentUser){
+
+alert("Login terlebih dahulu");
+
+return;
+
+}
+
+const res =
+await fetch(
+API+
+"?action=click"+
+"&username="+encodeURIComponent(currentUser)
+);
+
+const data =
+await res.json();
+
+if(data.success){
+
+document.getElementById("uPoint").innerText =
+data.poin;
+
+}
+
+}
+
+async function convertDiamond(){
+
+if(!currentUser){
+
+alert("Login terlebih dahulu");
+
+return;
+
+}
+
+const res =
+await fetch(
+API+
+"?action=convert"+
+"&username="+encodeURIComponent(currentUser)
+);
+
+const data =
+await res.json();
+
+if(data.success){
+
+refreshProfile();
+
+alert("Diamond berhasil ditambah");
+
+}else{
+
+alert(data.message);
+
+}
+
+}
+
+async function loadLeaderboard(){
+
+const res =
+await fetch(
+API+"?action=leaderboard"
+);
+
+const data =
+await res.json();
+
+let html = "";
+
+if(data.leaderboard){
+
+data.leaderboard.forEach((p,i)=>{
+
+html += `
+<div class="rank">
+#${i+1} ${p[1]} - ${p[2]} poin
+</div>
+`;
+
+});
+
+}
+
+document.getElementById("leaderboard").innerHTML =
+html;
+
+}
+
+loadLeaderboard();
+loadSavedUser();
+
+setInterval(
+refreshProfile,
+5000
+);
+
+</script>
+
+</body>
+</html>
